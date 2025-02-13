@@ -5,18 +5,24 @@ import { jwt } from 'hono/jwt'
 import type { JwtVariables } from 'hono/jwt'
 import prisma from '../../prisma/client/index.js';
 import { apiKeyAuth } from '../middleware/auth.js';
+import { bearerAuth } from 'hono/bearer-auth';
 
 type Variables = JwtVariables
 
 const app = new Hono<{ Variables: Variables }>()
 
-app.use('/*',jwt(
-    {
-      secret: '33c09648982ba1044f11365135a4a597c848f0bf28e4831578e24dc81cd1ad5b',
-    }
-  )
-)
-app.get('/', async (c) => {
+// app.use('/*',jwt(
+//     {
+//       secret: '33c09648982ba1044f11365135a4a597c848f0bf28e4831578e24dc81cd1ad5b',
+//     }
+//   )
+// )
+
+const token = '33c09648982ba1044f11365135a4a597c848f0bf28e4831578e24dc81cd1ad5b'
+
+app.use('/*', bearerAuth({ token }))
+
+app.get('/shita', async (c) => {
   const auth = await prisma.auth.findFirst()
   if (auth) {
       return c.json(
@@ -28,6 +34,7 @@ app.get('/', async (c) => {
       )
   }
 })
+
 app.use('*', apiKeyAuth)
 
 app.get('/data', (c) => getPerson(c));
