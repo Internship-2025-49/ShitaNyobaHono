@@ -8,6 +8,7 @@ export const apiKeyAuth = async (c: Context, next: Next) => {
     const auth = await prisma.auth.findFirst({
         where: { key: apiKey }
     })
+    
     if (!auth) {
         return c.json({ statusCode: 401, message: 'Api key salah' }, 401)
     }

@@ -7,11 +7,7 @@ import { cors } from 'hono/cors'
 // Initialize the Hono app
 const app = new Hono().basePath('/api')
 
-app.use('*', cors({
-  origin: 'http://localhost:3000',
-  allowMethods: ['GET','POST', 'PUT', 'DELETE'], 
-  allowHeaders: ["*"],
-}));
+app.use('*', cors());
 
 const port = 3000
 console.log(`Server is running on http://localhost:${port}`)

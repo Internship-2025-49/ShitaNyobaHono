@@ -8,14 +8,10 @@ import prisma from "../../prisma/client/index.js";
 export const getPerson = async (c: Context) => {
     try {
         //get all posts
-        const person = await prisma.person.findMany({ orderBy: { id: 'desc' } });
+        const person = await prisma.person.findMany({ orderBy: { id: 'asc' } });
 
         //return JSON
-        return c.json({
-            success: true,
-            message: 'List Data Posts!',
-            data: person
-        }, 200);
+        return c.json(person);
 
     } catch (e: unknown) {
         console.error(`Error getting posts: ${e}`);
@@ -77,11 +73,7 @@ export async function getPersonById(c: Context) {
       }
 
        //return JSON
-       return c.json({
-        statusCode : 200,
-        message: `Detail Data Food By ID : ${personId}`,
-        data: person
-        });
+       return c.json(person);
   } catch (e: unknown) {
       console.error(`Error finding food: ${e}`);
   }
@@ -105,9 +97,9 @@ export async function updatePerson(c: Context) {
       const person = await prisma.person.update({
           where: { id: personId },
           data: {
-            name: name,
-            address: address,
-            phone: phone
+            name,
+            address,
+            phone
           },
       });
 
