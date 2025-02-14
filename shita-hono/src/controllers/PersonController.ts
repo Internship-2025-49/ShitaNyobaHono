@@ -20,62 +20,63 @@ export const getPerson = async (c: Context) => {
 
 export async function createPerson(c: Context) {
   try {
-
-    //get body request
+    
     const body = await c.req.json();
 
-    //check if title and content is string
-    const name   = typeof body['name'] === 'string' ? body['name'] : '';
+   
+    const name = typeof body['name'] === 'string' ? body['name'] : '';
     const address = typeof body['address'] === 'string' ? body['address'] : '';
     const phone = typeof body['phone'] === 'string' ? body['phone'] : '';
 
-  
+
     const person = await prisma.person.create({
       data: {
-        name: name,
-        address: address,
-        phone: phone
+        name,
+        address,
+        phone
       }
     });
 
-    //return JSON
-    return c.json({
-      statusCode : 201,
-      message: 'Person Created Successfully!',
-      data: person
-    });
+   
+    return c.json(person);
 
-  } catch (e: unknown) {
+  } catch (e) {
     console.error(`Error creating person: ${e}`);
+    return c.json({ error: "Internal Server Error" }, 500);
   }
 }
 
+
 export async function getPersonById(c: Context) {
   try {
-
-      // Konversi tipe id menjadi number
+      
       const personId = parseInt(c.req.param('id'));
 
-      //get food by id
-      const person = await prisma.person.findMany({
+      
+      if (isNaN(personId)) {
+          return c.json({ error: "Invalid ID format" }, 400);
+      }
+
+      // Ambil data berdasarkan ID
+      const person = await prisma.person.findUnique({
           where: { id: personId },
       });
 
-      console.log('Data Of Food: ', person)
-
-      //if food not found
+      // Jika tidak ditemukan, kembalikan pesan error
       if (!person) {
-          //return JSON
-          return c.json({
-              statusCode : 404,
-              message: 'ID Food Not Found!',
-          });
+          return c.json({ error: "Person not found" }, 404);
       }
 
+<<<<<<< HEAD
        //return JSON
        return c.json(person);
+=======
+      // Kembalikan data yang ditemukan
+      return c.json(person);
+>>>>>>> 4de9787c10a8856d6d22c1021a9d0c9cd2af2a2c
   } catch (e: unknown) {
-      console.error(`Error finding food: ${e}`);
+      console.error(`Error finding person: ${e}`);
+      return c.json({ error: "Internal Server Error" }, 500);
   }
 }
 
@@ -117,22 +118,23 @@ export async function updatePerson(c: Context) {
 
 export async function deletePerson(c: Context) {
   try {
+      const personId = parseInt(c.req.param("id"));
 
-      // Konversi tipe id menjadi number
-      const personId = parseInt(c.req.param('id'));
+      const person = await prisma.person.findUnique({
+          where: { id: personId },
+      });
 
-      //delete food with prisma
+      if (!person) {
+          return c.json({ success: false, message: "Person not found" }, 404);
+      }
+
       await prisma.person.delete({
           where: { id: personId },
       });
 
-      //return JSON
-      return c.json({
-          statusCode : 200,
-          message: 'Person Deleted Successfully!',
-      });
-
-  } catch (e: unknown) {
-      console.error(`Error deleting person: ${e}`);
+      return c.json({ success: true, message: "Person deleted successfully!" });
+  } catch (e) {
+      console.error("Error deleting person:", e);
+      return c.json({ success: false, message: "Error deleting person" }, 500);
   }
 }

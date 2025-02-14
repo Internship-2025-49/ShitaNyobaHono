@@ -7,8 +7,13 @@ import useSWR from "swr";
 export default function PostEdit({ params }: { params: Promise<{ id: number }> }) {
     const router = useRouter();
     const resolvedParams = use(params);
+<<<<<<< HEAD
 
     const { data: person, isLoading, error } = useSWR(`/queries/person/${resolvedParams.id}`, fetcher);
+=======
+    const { data: person, isLoading, error } = useSWR(`/queries/person/${resolvedParams.id}`, fetcher);
+
+>>>>>>> 4de9787c10a8856d6d22c1021a9d0c9cd2af2a2c
     const [name, setName] = useState<string>("");
     const [address, setAddress] = useState<string>("");
     const [phone, setPhone] = useState<string>("");
@@ -21,7 +26,11 @@ export default function PostEdit({ params }: { params: Promise<{ id: number }> }
         }
     }, [person, isLoading]);
 
+<<<<<<< HEAD
     const updatePerson = async (e: React.FormEvent) => {
+=======
+    const updateUser = async (e: React.FormEvent) => {
+>>>>>>> 4de9787c10a8856d6d22c1021a9d0c9cd2af2a2c
         e.preventDefault();
         if (name !== "" && address !== "" && phone !== "") {
             const formData = { name, address, phone };
@@ -31,6 +40,11 @@ export default function PostEdit({ params }: { params: Promise<{ id: number }> }
                 body: JSON.stringify(formData),
             });
             const content = await res.json();
+<<<<<<< HEAD
+=======
+            console.log("Response from API:", content);
+            
+>>>>>>> 4de9787c10a8856d6d22c1021a9d0c9cd2af2a2c
             if (content.success > 0) {
                 router.push("/post");
             }
@@ -38,13 +52,24 @@ export default function PostEdit({ params }: { params: Promise<{ id: number }> }
     };
 
     if (isLoading) return <div>Loading...</div>;
+<<<<<<< HEAD
     if (error) return <div>Error loading person data.</div>;
+=======
+    if (error) return <div>Error loading user data.</div>;
+>>>>>>> 4de9787c10a8856d6d22c1021a9d0c9cd2af2a2c
     if (!person) return <div>Error page.</div>;
 
     return (
         <div className="w-full max-w-7xl m-auto">
+<<<<<<< HEAD
             <form className="w-full" onSubmit={updatePerson}>
                 <span className="font-bold text-yellow-500 py-2 block underline text-2xl">Edit Person</span>
+=======
+            <form className="w-full" onSubmit={updateUser}>
+
+                <span className="font-bold text-yellow-500 py-2 block underline text-2xl">Edit Person</span>
+
+>>>>>>> 4de9787c10a8856d6d22c1021a9d0c9cd2af2a2c
                 <div className="w-full py-2">
                     <label className="text-sm font-bold py-2 block">Name</label>
                     <input
@@ -55,6 +80,10 @@ export default function PostEdit({ params }: { params: Promise<{ id: number }> }
                         onChange={(e) => setName(e.target.value)}
                     />
                 </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4de9787c10a8856d6d22c1021a9d0c9cd2af2a2c
                 <div className="w-full py-2">
                     <label className="text-sm font-bold py-2 block">Address</label>
                     <textarea
@@ -64,6 +93,10 @@ export default function PostEdit({ params }: { params: Promise<{ id: number }> }
                         onChange={(e) => setAddress(e.target.value)}
                     />
                 </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4de9787c10a8856d6d22c1021a9d0c9cd2af2a2c
                 <div className="w-full py-2">
                     <label className="text-sm font-bold py-2 block">Phone</label>
                     <input
@@ -74,13 +107,25 @@ export default function PostEdit({ params }: { params: Promise<{ id: number }> }
                         onChange={(e) => setPhone(e.target.value)}
                     />
                 </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4de9787c10a8856d6d22c1021a9d0c9cd2af2a2c
                 <div className="w-full py-2">
                     <button className="w-20 p-2 text-white border-gray-200 border-[1px] rounded-sm bg-green-400">
                         Update
                     </button>
                 </div>
+<<<<<<< HEAD
             </form>
         </div>
     );
 }
 
+=======
+                
+            </form>
+        </div>
+    );
+}
+>>>>>>> 4de9787c10a8856d6d22c1021a9d0c9cd2af2a2c
