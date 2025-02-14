@@ -49,13 +49,6 @@ export async function POST(request: NextRequest) {
     });
 
     const data = await res.json();
-<<<<<<< HEAD
 
     return NextResponse.json(data);
 }
-
-=======
-    
-    return NextResponse.json(data);
-}
->>>>>>> 4de9787c10a8856d6d22c1021a9d0c9cd2af2a2c

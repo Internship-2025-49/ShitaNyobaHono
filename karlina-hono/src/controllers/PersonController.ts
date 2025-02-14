@@ -66,14 +66,8 @@ export async function getPersonById(c: Context) {
       if (!person) {
           return c.json({ error: "Person not found" }, 404);
       }
-
-<<<<<<< HEAD
        //return JSON
        return c.json(person);
-=======
-      // Kembalikan data yang ditemukan
-      return c.json(person);
->>>>>>> 4de9787c10a8856d6d22c1021a9d0c9cd2af2a2c
   } catch (e: unknown) {
       console.error(`Error finding person: ${e}`);
       return c.json({ error: "Internal Server Error" }, 500);
