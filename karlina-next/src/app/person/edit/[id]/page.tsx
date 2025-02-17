@@ -8,7 +8,7 @@ export default function PostEdit({ params }: { params: Promise<{ id: number }> }
     const router = useRouter();
     const resolvedParams = use(params);
 
-    const { data: person, isLoading, error } = useSWR(`/queries/person/${resolvedParams.id}`, fetcher);
+    const { data: person, isLoading, error } = useSWR(`/utils/queries/person/${resolvedParams.id}`, fetcher);
     const [name, setName] = useState<string>("");
     const [address, setAddress] = useState<string>("");
     const [phone, setPhone] = useState<string>("");
@@ -25,14 +25,14 @@ export default function PostEdit({ params }: { params: Promise<{ id: number }> }
         e.preventDefault();
         if (name !== "" && address !== "" && phone !== "") {
             const formData = { name, address, phone };
-            const res = await fetch(`/queries/person/${resolvedParams.id}`, {
+            const res = await fetch(`/utils/queries/person/${resolvedParams.id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
             });
             const content = await res.json();
             if (content.success > 0) {
-                router.push("/post");
+                router.push("/persons");
             }
         }
     };
@@ -55,7 +55,6 @@ export default function PostEdit({ params }: { params: Promise<{ id: number }> }
                         onChange={(e) => setName(e.target.value)}
                     />
                 </div>
-
                 <div className="w-full py-2">
                     <label className="text-sm font-bold py-2 block">Address</label>
                     <textarea
@@ -65,7 +64,6 @@ export default function PostEdit({ params }: { params: Promise<{ id: number }> }
                         onChange={(e) => setAddress(e.target.value)}
                     />
                 </div>
-
                 <div className="w-full py-2">
                     <label className="text-sm font-bold py-2 block">Phone</label>
                     <input
@@ -76,8 +74,13 @@ export default function PostEdit({ params }: { params: Promise<{ id: number }> }
                         onChange={(e) => setPhone(e.target.value)}
                     />
                 </div>
+                <div className="w-full py-2">
+                    <button className="w-20 p-2 text-white border-gray-200 border-[1px] rounded-sm bg-green-400">
+                        Update
+                    </button>
+                </div>
             </form>
         </div>
     );
-
 }
+

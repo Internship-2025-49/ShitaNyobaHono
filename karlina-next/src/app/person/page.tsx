@@ -8,15 +8,21 @@ import Person from "../components/person";
 
 export default function Users() {
     const [person, setUsers] = useState<PersonModel[]>([]);
-    const { data, error } = useSWR<{ result: PersonModel[] }>(`/queries/person`, fetcher);
+    const { data, error } = useSWR<{ result: PersonModel[] }>(`/utils/queries/person`, fetcher);
+
     useEffect(() => {
-        console.log("Data fetched:", data);
-        if (data && data.result && Array.isArray(data.result)) {
-            setUsers(data.result);
-        } else if (data !== undefined) {
-            console.error("Invalid data format:", data);
-        }
-    }, [data]);
+    console.log("Data fetched:", data);
+    if (!data) return;
+
+    if (typeof data !== "object" || !("result" in data) || !Array.isArray(data.result)) {
+        console.error("Invalid data format:", data);
+        return;
+    }
+
+    setUsers(data.result);
+}, [data]);
+
+
     if (error) {
         console.error("Error fetching data:", error);
         return <div>Failed to load</div>;
@@ -24,7 +30,7 @@ export default function Users() {
 
     if (!data) return <div>Loading...</div>;
     const delete_person: PersonModel['deletePerson'] = async (id: number) => {
-        const res = await fetch(`/queries/person/${id}`, {
+        const res = await fetch(`/utils/queries/person/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

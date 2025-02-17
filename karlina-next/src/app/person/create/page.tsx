@@ -18,7 +18,7 @@ export default function PersonCreate() {
                 phone: phone,
             };
 
-            const add = await fetch('/queries/person', {
+            const add = await fetch('/utils/queries/person', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json'
@@ -28,10 +28,11 @@ export default function PersonCreate() {
             
             const content = await add.json();
             if (content.success > 0) {
-                router.push('/person');
+                router.push('/persons');
             }
         }
     };
+    
     return (
         <div className="w-full max-w-7xl m-auto">
             <form className='w-full' onSubmit={addPerson}>
@@ -50,9 +51,9 @@ export default function PersonCreate() {
                 </div>
                 <div className='w-full py-2'>
                     <button className="w-20 p-2 text-white border-gray-200 border-[1px] rounded-sm bg-green-400">Submit</button>
-
                 </div>
             </form>
         </div>
     );
 }
+

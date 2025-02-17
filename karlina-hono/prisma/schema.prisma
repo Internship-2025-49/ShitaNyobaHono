@@ -21,9 +21,3 @@ model Auth {
 
   @@map("auth")
 }
-
-model User{
-  id       String  @id @default(uuid())
-  username String  @unique
-  password String
-}
