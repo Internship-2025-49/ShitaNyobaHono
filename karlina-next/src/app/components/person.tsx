@@ -1,6 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
 import { PersonModel } from '../types/person'
+
+
 export default function Post(params: PersonModel) {
     return (
         <tr>

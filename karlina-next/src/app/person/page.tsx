@@ -11,17 +11,16 @@ export default function Users() {
     const { data, error } = useSWR<{ result: PersonModel[] }>(`/utils/queries/person`, fetcher);
 
     useEffect(() => {
-    console.log("Data fetched:", data);
-    if (!data) return;
+        console.log("Data fetched:", data);
+        if (!data) return;
 
-    if (typeof data !== "object" || !("result" in data) || !Array.isArray(data.result)) {
-        console.error("Invalid data format:", data);
-        return;
-    }
+        if (typeof data !== "object" || !("result" in data) || !Array.isArray(data.result)) {
+            console.error("Invalid data format:", data);
+            return;
+        }
 
-    setUsers(data.result);
-}, [data]);
-
+        setUsers(data.result);
+    }, [data]);
 
     if (error) {
         console.error("Error fetching data:", error);
